@@ -33,6 +33,7 @@ function Navbar() {
                 <div className="flex gap-5">
                     <Link to="/categorias" className="hover:underline">Categorias</Link>
                     <Link to="/cadastrarcategoria" className="hover:underline">Cadastrar categoria</Link>
+                    <Link to="/produtos" className="hover:underline">Produtos</Link>
                     <UserIcon size={32} color="#ffffff" weight="bold" />
                     <ShoppingCartIcon size={32} color="#ffffff" weight="bold" />  
                 </div>
