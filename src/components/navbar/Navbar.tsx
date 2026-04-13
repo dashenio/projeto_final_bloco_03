@@ -1,4 +1,5 @@
 import { MagnifyingGlassIcon, ShoppingCartIcon, UserIcon } from "@phosphor-icons/react"
+import { Link } from "react-router-dom"
 
 
 function Navbar() {
@@ -8,11 +9,13 @@ function Navbar() {
     <>
         <div className="w-full flex justify-center py-4 bg-indigo-900 text-white z-100">
             <div className="container flex justify-between text-lg mx-8 items-center">
-                <div className="flex flex-row gap-2 items-center">
-                  <img src="https://ik.imagekit.io/dashen/health-svgrepo-com.svg?updatedAt=1776084804891" 
-                        className="w-12" />
-                  <p className="text-xl font-bold">FARMÁCIA</p>
-                </div>
+                <Link to="/home">
+                  <div className="flex flex-row gap-2 items-center">
+                    <img src="https://ik.imagekit.io/dashen/health-svgrepo-com.svg?updatedAt=1776084804891" 
+                          className="w-12" />
+                    <p className="text-xl font-bold">FARMÁCIA</p>
+                  </div>
+                </Link>
                 <form className="flex justify-center items-center flex-row gap-0.5">
 
                 <input  type="text" 
@@ -28,8 +31,8 @@ function Navbar() {
 
                 </form>
                 <div className="flex gap-5">
-                    <p>Categorias</p>
-                    <p>Cadastrar categoria</p>
+                    <Link to="/categorias" className="hover:underline">Categorias</Link>
+                    <Link to="/cadastrarcategoria" className="hover:underline">Cadastrar categoria</Link>
                     <UserIcon size={32} color="#ffffff" weight="bold" />
                     <ShoppingCartIcon size={32} color="#ffffff" weight="bold" />  
                 </div>
