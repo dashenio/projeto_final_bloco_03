@@ -53,7 +53,6 @@ function DeletarProduto() {
         Você tem certeza de que deseja apagar o produto a seguir?
     </p>
 
-    {/* O Card do Produto */}
     <div className='flex flex-row rounded-lg overflow-hidden border border-slate-300 items-center p-4 bg-white'>   
         
         <div className="flex flex-row items-center gap-6">
