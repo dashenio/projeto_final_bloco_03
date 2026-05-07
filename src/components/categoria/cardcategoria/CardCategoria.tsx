@@ -8,9 +8,9 @@ interface CardCategoriaProps{
 
 function CardCategoria({ categoria }: CardCategoriaProps) {
   return (
-    <div className="border flex flex-col rounded-2xl overflow-hidden justify-between">
-        <header className=" py-2 px-6 bg-indigo-800 text-white font-bold text-2xl">Categoria</header>
-        <p className="p-8 text-3xl bg-slate-200 h-full">{categoria.nome}</p>
+    <div className="flex flex-col border border-slate-200 rounded-2xl overflow-hidden justify-between">
+        <header className=" py-2 px-6 bg-indigo-800 text-white font-bold text-l uppercase">Categoria</header>
+        <p className="p-8 text-3xl bg-slate-200 h-full">{categoria.tipo}</p>
         <div className="flex">
             <Link to={`/editarcategoria/${categoria.id}`}
                   className="w-full text-slate-100 bg-teal-500 hover:bg-teal-700

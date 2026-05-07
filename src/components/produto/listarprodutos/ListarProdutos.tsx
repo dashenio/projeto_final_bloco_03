@@ -1,15 +1,29 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { SyncLoader } from "react-spinners";
 import { buscar } from "../../../services/Service";
 import CardProduto from "../cardproduto/CardProduto";
 import type Produto from "../../../models/Produto";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 function ListarProdutos() {
 
+    const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const [produtos, setProdutos] = useState<Produto[]>([])
+
+    const { usuario, handleLogout } = useContext(AuthContext)
+    const token = usuario.token
+
+    useEffect(() => {
+        if (token === '') {
+            ToastAlerta('Você precisa estar logado!', 'info')
+            navigate('/')
+        }
+    }, [token])
 
 
     useEffect(() => {
@@ -20,11 +34,13 @@ function ListarProdutos() {
         setIsLoading(true)
 
         try {
-            await buscar('/produtos', setProdutos)
+            await buscar('/produtos/all', setProdutos, {
+                headers: { Authorization: token }
+            });
 
         } catch (error: any) {
             if (error.toString().includes('401')) {
-
+                handleLogout()
             }
         }finally {
             setIsLoading(false)

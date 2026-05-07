@@ -1,14 +1,29 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import type Categoria from "../../../models/Categoria";
 import { buscar } from "../../../services/Service";
 import { SyncLoader } from "react-spinners";
 import CardCategoria from "../cardcategoria/CardCategoria";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 
 function ListarCategorias() {
 
+    const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [categorias, setCategorias] = useState<Categoria[]>([])
+
+    const { usuario, handleLogout } = useContext(AuthContext)
+    const token = usuario.token
+    
+    useEffect(() => {
+        if (token === '') {
+            ToastAlerta('Você precisa estar logado!', 'info')
+            navigate('/')
+            }
+        }, [token])   
   
 
     useEffect(()=> {
@@ -17,8 +32,19 @@ function ListarCategorias() {
 
     async function buscarCategorias(){
         setIsLoading(true)
-        await buscar('/categorias', setCategorias)
-        setIsLoading(false)
+        try{
+            await buscar('/categorias/all', setCategorias, {
+                    headers: { Authorization: token }
+                });
+            setIsLoading(false)
+
+        }catch(error: any) {
+            if (error.toString().includes('401')) {
+                handleLogout()
+            }
+        }finally {
+            setIsLoading(false)
+        }
     }
   
     return (
@@ -37,7 +63,7 @@ function ListarCategorias() {
             <div className="container flex flex-col">
                 {(!isLoading && categorias.length === 0) && (
 	                <span className="text-3xl text-center my-8">
-		                Nenhum Categoria foi encontrado!
+		                Nenhum categoria foi encontrada!
 	                </span>
                 )}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -53,4 +79,4 @@ function ListarCategorias() {
   )
 }
 
-export default ListarCategorias
+export default ListarCategorias;

@@ -1,8 +1,10 @@
-import { useEffect, useState, type ChangeEvent, type SyntheticEvent } from "react";
+import { useContext, useEffect, useState, type ChangeEvent, type SyntheticEvent } from "react";
 import type Categoria from "../../../models/Categoria";
 import { useNavigate, useParams } from "react-router-dom";
 import { atualizar, buscar, cadastrar } from "../../../services/Service";
 import { ClipLoader } from "react-spinners";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 function FormCategoria() {
 
@@ -13,9 +15,21 @@ function FormCategoria() {
   
     const { id } = useParams<{ id: string }>();
 
+    const { usuario, handleLogout } = useContext(AuthContext)
+    const token = usuario.token
+            
+    useEffect(() => {
+        if (token === '') {
+            ToastAlerta('Você precisa estar logado!', 'info')
+            navigate('/')
+        }
+    }, [token])        
+
     async function buscarPorId(id: string) {
         
-        await buscar(`/categorias/${id}`, setCategoria)
+        await buscar(`/categorias/${id}`, setCategoria, {
+                    headers: { Authorization: token }
+            });
     }
         useEffect(() => {
             if(id !== undefined){
@@ -41,19 +55,25 @@ function FormCategoria() {
 
         if (id !== undefined) {
             try{
-                await atualizar(`/categorias/`, categoria, setCategoria)
-                alert('A categoria foi atualizada com sucesso!')
+                await atualizar(`/categorias/atualizar`, categoria, setCategoria, {
+                    headers: { Authorization: token }
+            });
+                ToastAlerta('A categoria foi atualizada com sucesso!','sucesso')
 
             }catch(error: any){
-                alert('Erro ao atualizar categoria.')
+                ToastAlerta('Erro ao atualizar categoria.', 'erro')
             }
         }else {
             try {
-                await cadastrar(`/categorias`, categoria, setCategoria)
-                alert('A categoria foi cadastrada com sucesso!')
+                await cadastrar(`/categorias/cadastrar`, categoria, setCategoria, {
+                    headers: { Authorization: token }
+            });
+                ToastAlerta('A categoria foi cadastrada com sucesso!', 'sucesso')
 
             }catch(error: any){
-                alert('Erro ao cadastrar categoria')
+                ToastAlerta('Erro ao cadastrar categoria', 'erro')
+
+                handleLogout() 
                
                 }   
             }
@@ -72,16 +92,16 @@ function FormCategoria() {
         <form className="w-1/2 flex flex-col gap-8"
                 onSubmit={gerarNovaCategoria} >
             <div className="flex flex-col gap-2">
-                <label htmlFor="nome">Categoria</label>
+                <label htmlFor="tipo">Nome da categoria</label>
                 <input type="text" 
-                       placeholder="Descreva aqui o seu categoria" 
-                       name="nome"
+                       placeholder="Isira o nome da nova categoria" 
+                       name="tipo"
                        className="border-2 border-slate-700 rounded p-2"
-                       value={categoria.nome}
+                       value={categoria.tipo}
                        onChange={(e: ChangeEvent<HTMLInputElement>) => atualizarEstado(e)}
                 />
             </div>
-            <button className="rounded text-white bg-slate-400
+            <button className="rounded text-white bg-slate-400 font-bold
                     hover:bg-slate-700 w-1/2 py-2 mx-auto flex justify-center"
                     type="submit">
                 { isLoading ?

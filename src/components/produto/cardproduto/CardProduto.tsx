@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type Produto from '../../../models/Produto'
+import { PencilIcon, TrashIcon } from '@phosphor-icons/react'
 
 interface CardProdutoProps {
     produto: Produto
@@ -7,37 +8,75 @@ interface CardProdutoProps {
 
 function CardProduto({ produto }: CardProdutoProps) {
     return (
-        <div className='flex flex-row rounded overflow-hidden justify-between'>   
+        <div className='flex flex-col columns-1 rounded-lg border border-slate-200 overflow-hidden bg-white shadow-sm'>
             
-            <div className="flex flex-1 w-full py-2 px-4 items-center gap-4">
-                <img src={produto.foto}
-                    className='max-w-36 max-h-36' />
-                
-                <div className='flex flex-col  gap-5'>
-                    <div className='text-black'>
-                        <h3 className='text-2xl font-bold mb-3'>{produto.nome}</h3>
-                        <p><span className='font-bold'>Preço: </span>{new Intl.NumberFormat("pt-BR", {
-                            style: 'currency',
-                            currency: 'BRL',
-                        }).format(produto.preco)}</p>
-                        <p><span className='font-bold'>Categoria: </span>{produto.categoria?.nome}</p>
-
-                    </div>
-                    <div className="flex flex-row justify-center w-48">
-                        <Link to={`/editarproduto/${produto.id}`} 
-                            className='w-full text-white bg-indigo-400 
-                            hover:bg-indigo-800 flex items-center justify-center py-2'>
-                            <button>Editar</button>
-                        </Link>
-                        <Link to={`/deletarproduto/${produto.id}`}
-                            className='text-white bg-red-400 
-                            hover:bg-red-700 w-full flex items-center justify-center'>
-                            <button>Deletar</button>
-                        </Link>
-                    </div>
-                </div>
+            {/* Cabeçalho do Card */}
+            <div className='bg-indigo-800 py-2 px-4'>
+                <h4 className='text-white font-bold uppercase text-sm'>{produto.categoria?.tipo}</h4>
             </div>
+
+            <div className="flex flex-col flex-1 w-full items-center py-2 px-4 gap-4 bg-slate-200">
+
+                <div className="flex justify-center items-center h-40 w-full p-2">
+
+                    <img src={produto.foto} className='h-full w-full object-contain' alt={produto.nome} />
+
+                </div>
+
+            {/* Conteúdo Central */}
+            <div className='text-center'>
+                <h3 className='text-xl font-bold text-slate-900 leading-tight mb-2'>
+                    {produto.nome}
+                </h3>
+                
+                {/* Tag de Genérico*/}
+
+                <div className="h-7 flex-row items-center">
+                    {produto.generico ? (
+                        <span className="bg-yellow-400 text-xs font-bold px-2 py-1 rounded md-2 inline-block">
+                            GENÉRICO
+                        </span>
+                    ) : (
+                        <div className="h-full"></div> // Espaço reservado vazio
+                    )}
+                </div>
+
+
+                <p className='text-sm text-slate-600 italic'>{produto.apresentacao}</p>
+                
+                <p className='text-slate-700 mt-2'>
+                    <span className='font-bold'>Fabricante: </span>{produto.fabricante}
+                </p>
+
+                <p className='text-slate-700'>
+                    <span className='font-bold'>Preço: </span>
+                    {new Intl.NumberFormat("pt-BR", {
+                        style: 'currency',
+                        currency: 'BRL',
+                    }).format(produto.preco)}
+                </p>
+
+                <p className='text-slate-700 mt-2 space-y-1 w-full h-20 overflow-y-auto'>
+                    <span className='font-bold'>Descrição: </span>{produto.descricao}
+                </p>
+            </div>   
         </div>
+
+        {/* Rodapé com Botões */}
+            <div className="flex w-full">
+                <Link to={`/editarproduto/${produto.id}`} 
+                    className='w-full  text-slate-100 bg-teal-500 hover:bg-teal-700
+                              flex items-center justify-center py-2 px-4 transition-colors'>
+                    <button className='font-bold'><PencilIcon size={32} color="#ffffff" /></button>
+                </Link>
+                <Link to={`/deletarproduto/${produto.id}`}
+                    className='w-full text-slate-100 bg-red-400 hover:bg-red-700
+                              flex items-center justify-center py-2 px-4 transition-colors'>
+                    <button className='font-bold'><TrashIcon size={32} color="#ffffff" /></button>
+                </Link>
+            </div>
+
+    </div>    
     )
 }
 

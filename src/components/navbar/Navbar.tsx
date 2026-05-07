@@ -1,32 +1,38 @@
-import { MagnifyingGlassIcon, ShoppingCartIcon, UserIcon } from "@phosphor-icons/react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext, type ReactNode } from "react";
+import { ToastAlerta } from "../../utils/ToastAlerta";
+import SearchForm from "./SearchForm";
+import { ShoppingCartIcon, UserIcon } from "@phosphor-icons/react";
 
 
 function Navbar() {
 
+    const navigate = useNavigate();
 
-  return (
-    <>
-        <div className="w-full flex justify-center py-4 bg-indigo-900 text-white z-100">
+    const { handleLogout, usuario } = useContext(AuthContext);
+
+    function logout(){
+        handleLogout();
+        ToastAlerta('O usuário foi desconectado com sucesso!', 'info');
+        navigate("/login")
+    }
+
+    let component: ReactNode;
+
+    if(usuario.token !== ''){
+        component = (<div className="w-full flex justify-center py-4 bg-indigo-900 text-white z-100">
             <div className="container flex justify-between text-lg mx-8 items-center">
                 <Link to="/home">
                   <div className="flex flex-row gap-2 items-center">
                     <img src="https://ik.imagekit.io/dashen/health-svgrepo-com.svg?updatedAt=1776084804891" 
                           className="w-12" />
-                    <p className="text-xl font-bold">FARMÁCIA</p>
+                    <p className="text-xl font-bold">FARMÁCIA DA GENTE</p>
                   </div>
                 </Link>
                 <form className="flex justify-center items-center flex-row gap-0.5">
 
-                <input  type="text" 
-                       id="busca"
-                       name="busca"
-                       placeholder="Procurar"
-                       className="border-2 border-slate-700 rounded-lg p-2 bg-white text-slate-400 justify-stretch w-2xl h-8"
-                />
-                <button className="flex rounded-lg p-2 bg-blue-500 w-10 h-8 justify-center items-center hover:bg-blue-600">
-                <MagnifyingGlassIcon size={16} color="#ffffff" weight="bold" />
-                </button>
+                <SearchForm/>
                 
 
                 </form>
@@ -35,13 +41,22 @@ function Navbar() {
                     <Link to="/cadastrarcategoria" className="hover:underline">Cadastrar categoria</Link>
                     <Link to="/produtos" className="hover:underline">Produtos</Link>
                     <UserIcon size={32} color="#ffffff" weight="bold" />
-                    <ShoppingCartIcon size={32} color="#ffffff" weight="bold" />  
+                    <ShoppingCartIcon size={32} color="#ffffff" weight="bold" />
+                    <Link to='/' onClick={logout} className="hover:underline">Sair</Link>  
                 </div>
             </div>
 
-        </div>
+        </div>)}
+
+
+  return (
+    <>
+
+      { component }  
+    
     </>
   )
+
 }
 
-export default Navbar
+export default Navbar;
