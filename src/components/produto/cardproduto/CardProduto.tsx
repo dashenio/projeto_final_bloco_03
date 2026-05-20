@@ -1,12 +1,18 @@
 import { Link } from 'react-router-dom'
 import type Produto from '../../../models/Produto'
 import { PencilIcon, TrashIcon } from '@phosphor-icons/react'
+import { useContext } from 'react';
+import { AuthContext } from '../../../contexts/AuthContext';
 
 interface CardProdutoProps {
     produto: Produto
 }
 
 function CardProduto({ produto }: CardProdutoProps) {
+
+    const { usuario } = useContext(AuthContext);
+    const mostrarBarraAcoes = ['admin', 'corretor'].includes(usuario.roles);
+
     return (
         <div className='flex flex-col columns-1 rounded-lg border border-slate-200 overflow-hidden bg-white shadow-sm'>
             
@@ -56,13 +62,21 @@ function CardProduto({ produto }: CardProdutoProps) {
                     }).format(produto.preco)}
                 </p>
 
+                { usuario.roles === 'admin' && (<p className='text-slate-700 mt-2'>
+                    <span className='font-bold uppercase'>estoque: <span className='text-blue-600'>{produto.quantidade}</span></span>
+                </p>
+                )}
+
+               
+
                 <p className='text-slate-700 mt-2 space-y-1 w-full h-20 overflow-y-auto'>
                     <span className='font-bold'>Descrição: </span>{produto.descricao}
                 </p>
             </div>   
         </div>
 
-        {/* Rodapé com Botões */}
+            {/* Rodapé com Botões */}
+            { mostrarBarraAcoes && (
             <div className="flex w-full">
                 <Link to={`/editarproduto/${produto.id}`} 
                     className='w-full  text-slate-100 bg-teal-500 hover:bg-teal-700
@@ -75,6 +89,7 @@ function CardProduto({ produto }: CardProdutoProps) {
                     <button className='font-bold'><TrashIcon size={32} color="#ffffff" /></button>
                 </Link>
             </div>
+            )}
 
     </div>    
     )
