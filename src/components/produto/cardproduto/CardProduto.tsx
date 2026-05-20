@@ -11,7 +11,7 @@ interface CardProdutoProps {
 function CardProduto({ produto }: CardProdutoProps) {
 
     const { usuario } = useContext(AuthContext);
-    const mostrarBarraAcoes = ['admin', 'corretor'].includes(usuario.roles);
+    const mostrarBarraAcoes = ['admin'].includes(usuario.roles);
 
     return (
         <div className='flex flex-col columns-1 rounded-lg border border-slate-200 overflow-hidden bg-white shadow-sm'>
