@@ -80,7 +80,7 @@ function Navbar() {
                         {/* Bloco da Direita: Apenas os ícones e a opção de Sair */}
                         <div className="flex gap-5 items-center shrink-0 mr-4">
                             <UserIcon size={32} color="#ffffff" weight="bold" />
-                            <ShoppingCartIcon size={32} color="#ffffff" weight="bold" />
+                            { !mostrar && (<ShoppingCartIcon size={32} color="#ffffff" weight="bold" />)}
                             <Link to='/login' onClick={logout} className="hover:underline">Sair</Link>  
                         </div>
                     </div>)}

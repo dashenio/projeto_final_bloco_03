@@ -34,8 +34,8 @@ function Login() {
 
   return (
     <>
-      <div className=" grid grid-cols-1 h-screen w-screen place-items-center font-bold">
-        <form className="flex justify-center items-center flex-col w-1/4 gap-4"
+      <div className=" grid grid-cols-2 h-screen w-screen place-items-center font-bold">
+        <form className="flex justify-center w-1/2 items-center flex-col gap-4"
                          onSubmit={login}
          >
           <h2 className="text-slate-900 text-5xl">Entrar</h2>
@@ -85,6 +85,10 @@ function Login() {
             </Link>
           </p>
         </form>
+        <div className="flex h-full bg-cover bg-left">
+          <img src="https://ik.imagekit.io/dashen/login"
+               className=""/>
+        </div>
         
 
       </div>

@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom"
+import { AuthContext } from "../../contexts/AuthContext";
+import { useContext } from "react";
 
 function Home() {
+
+    const { usuario } = useContext(AuthContext);
+    const mostrar = ['admin'].includes(usuario.roles);
 
     return (
         <>
@@ -27,9 +32,12 @@ function Home() {
 
                 <div className="flex justify-around gap-4">
 
+                    { mostrar &&(
+                    
                     <div className="rounded text-white bg-indigo-800 px-6 py-2 hover:bg-indigo-600">
                         <Link to='/cadastrarproduto'>Cadastrar Produto</Link>
-                    </div>
+                    </div>)}
+                    
                 </div>
             </div>
 
