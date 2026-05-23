@@ -1,56 +1,66 @@
+import { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Footer from "./components/footer/Footer";
+import Navbar from "./components/navbar/Navbar";
+import Home from "./pages/home/Home";
+import ListarCategorias from "./components/categoria/listarcategorias/ListarCategorias";
+import ListarProdutos from "./components/produto/listarprodutos/ListarProdutos";
+import Login from "./pages/login/Login";
+import { AuthProvider } from "./contexts/AuthContext";
+import { ToastContainer } from "react-toastify";
+import Perfil from "./pages/perfil/Perfil";
+import { CartProvider } from "./contexts/CartContext";
+import Cart from "./components/carrinho/Cart";
+import Modal from 'react-modal';
 
-import { BrowserRouter, Route, Routes } from "react-router-dom"
-import Footer from "./components/footer/Footer"
-import Navbar from "./components/navbar/Navbar"
-import Home from "./pages/home/Home"
-import ListarCategorias from "./components/categoria/listarcategorias/ListarCategorias"
-import FormCategoria from "./components/categoria/formcategoria/FormCategoria"
-import DeletarCategoria from "./components/categoria/deletarcategoria/DeletarCategoria"
-import ListarProdutos from "./components/produto/listarprodutos/ListarProdutos"
-import FormProduto from "./components/produto/formproduto/FormProduto"
-import DeletarProduto from "./components/produto/deletarproduto/DeletarProduto"
-import Login from "./pages/login/Login"
-import { AuthProvider } from "./contexts/AuthContext"
-import { ToastContainer } from "react-toastify"
-import Perfil from "./pages/perfil/Perfil"
+Modal.setAppElement('#root');
 
-
+type MenuState = 'closed' | 'open';
 
 function App() {
+  const [menuState, setMenuState] = useState<MenuState>('closed');
+
+  const toggleMenu = (): void => {
+    setMenuState(prevState => prevState === 'closed' ? 'open' : 'closed');
+  };
+
+  const closeMenu = (): void => {
+    setMenuState('closed');
+  };
+
   return (
     <>
-
-   <AuthProvider>
-      <ToastContainer/> 
-    <BrowserRouter>
-    
-    
-      <div className="min-h-screen flex flex-col">
-          <Navbar />
-          <div className="flex flex-1">
-            <Routes>
-              <Route path="/" element={<Login />}/>
-              <Route path="/login" element={<Login />}/>
-              <Route path="/home" element={<Home />}/>
-              <Route path="/categorias" element={<ListarCategorias />}/>
-              <Route path="/perfil" element={<Perfil />}/>
-              <Route path="/cadastrarcategoria" element={<FormCategoria/>}/>
-              <Route path="/editarcategoria/:id" element={<FormCategoria/>}/>
-              <Route path="/deletarcategoria/:id" element={<DeletarCategoria/>}/>  
-              <Route path="/produtos" element={<ListarProdutos/>}/>
-              <Route path="/cadastrarproduto" element={<FormProduto/>}/>  
-              <Route path="/editarproduto/:id" element={<FormProduto/>}/>    
-              <Route path="/deletarproduto/:id" element={<DeletarProduto/>}/>         
-            </Routes>
-          </div>
-          <Footer />
-        </div>
-        </BrowserRouter>
+      <AuthProvider>
+        <CartProvider>
+          <ToastContainer /> 
+          <BrowserRouter>
+            <div className="min-h-screen flex flex-col">
+              
+              <Navbar 
+                menuState={menuState}
+                onMenuToggle={toggleMenu}
+                onMenuClose={closeMenu}
+              />
+              
+              <div className="flex flex-1 w-full bg-slate-200">
+                <Routes>
+                  <Route path="/" element={<Login />}/>
+                  <Route path="/login" element={<Login />}/>
+                  <Route path="/home" element={<Home />}/>
+                  <Route path="/categorias" element={<ListarCategorias />}/>
+                  <Route path="/perfil" element={<Perfil />}/>
+                  <Route path="/produtos" element={<ListarProdutos/>}/>
+                  <Route path="/cart" element={<Cart />} />
+                </Routes>
+              </div>
+              
+              <Footer />
+            </div>
+          </BrowserRouter>
+        </CartProvider>
       </AuthProvider>
     </>
-  
-  
-  )      
+  );      
 }
 
-export default App
+export default App;

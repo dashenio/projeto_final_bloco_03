@@ -9,7 +9,7 @@ import type UsuarioLogin from "../../models/UsuarioLogin";
 function Perfil() {
     const navigate = useNavigate();
     
-    const { usuario: usuarioContext, atualizarDadosGlobais } = useContext(AuthContext);
+    const { usuario: usuarioContext, atualizarDadosGlobais, isHydrated } = useContext(AuthContext); // ✅
     const token = usuarioContext.token;
     
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -24,6 +24,8 @@ function Perfil() {
     });
 
     useEffect(() => {
+        if (!isHydrated) return; // ✅ Aguarda o localStorage ser lido
+
         if (token === "") {
             ToastAlerta("Você precisa estar logado!", "info");
             navigate("/login");
@@ -32,9 +34,9 @@ function Perfil() {
 
         setUsuarioForm({
             ...usuarioContext, 
-            senha: '' // Começa vazio, obrigando o usuário a digitar para confirmar
+            senha: ''
         });
-    }, [token, usuarioContext]);
+    }, [token, isHydrated]); // ✅ isHydrated na dependência
 
     function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
         setUsuarioForm({
@@ -62,7 +64,7 @@ function Perfil() {
             id: usuarioForm.id,
             nome: usuarioForm.nome,
             usuario: usuarioForm.usuario,
-            senha: usuarioForm.senha, // Agora a senha vai obrigatoriamente
+            senha: usuarioForm.senha,
             roles: usuarioForm.roles
         };
 
@@ -85,6 +87,15 @@ function Perfil() {
         } finally {
             setIsLoading(false);
         }
+    }
+
+    // ✅ Tela de loading enquanto o localStorage não foi lido
+    if (!isHydrated) {
+        return (
+            <div className="flex justify-center items-center min-h-[80vh]">
+                <ClipLoader color="#6366f1" size={48} />
+            </div>
+        );
     }
 
     return (
@@ -133,8 +144,8 @@ function Perfil() {
                         type="password" 
                         placeholder="Digite sua senha para confirmar"
                         name="senha"
-                        required          // Torna obrigatório no frontend
-                        minLength={8}     // Impede o envio se tiver menos de 8
+                        required
+                        minLength={8}
                         className="border-2 border-slate-300 rounded-lg p-2 focus:border-indigo-500 focus:outline-none transition-colors"
                         value={usuarioForm.senha || ''}
                         onChange={atualizarEstado}

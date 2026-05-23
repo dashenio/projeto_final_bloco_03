@@ -8,7 +8,7 @@ interface AuthContextProps {
     handleLogout(): void;
     handleLogin(usuario: UsuarioLogin): Promise<void>;
     isLoading: boolean;
-    // MUDANÇA: Adicionada a assinatura da função para atualizar o contexto após a edição do perfil
+    isHydrated: boolean; // ✅ Novo flag
     atualizarDadosGlobais(usuarioAtualizado: UsuarioLogin): void;
 }
 
@@ -30,6 +30,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     });
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isHydrated, setIsHydrated] = useState<boolean>(false); // ✅ Começa falso
 
     useEffect(() => {
         const usuarioPersistido = localStorage.getItem('usuario_farmacia');
@@ -37,28 +38,26 @@ export function AuthProvider({ children }: AuthProviderProps) {
         if (usuarioPersistido) {
             setUsuario(JSON.parse(usuarioPersistido));
         }
+
+        setIsHydrated(true); // ✅ Só libera após ler o localStorage
     }, []);
 
     async function handleLogin(usuarioLogin: UsuarioLogin) {
         setIsLoading(true);
-
         try {
             await login('/usuarios/logar', usuarioLogin, (user: UsuarioLogin) => {
                 setUsuario(user);
                 localStorage.setItem('usuario_farmacia', JSON.stringify(user));
             });
             ToastAlerta('Usuário autenticado com sucesso!', 'sucesso');
-
         } catch(error) {
             ToastAlerta('Usuário ou senha incorretos!', 'erro');
         }
-
         setIsLoading(false);
     }
 
     function handleLogout() {
         localStorage.removeItem('usuario_farmacia');
-        
         setUsuario({
             id: 0,
             nome: "",
@@ -69,15 +68,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         });
     }
 
-    // MUDANÇA: Função dedicada para atualizar nome/email no cache sem precisar logar de novo
     function atualizarDadosGlobais(usuarioAtualizado: UsuarioLogin) {
         setUsuario(usuarioAtualizado);
         localStorage.setItem('usuario_farmacia', JSON.stringify(usuarioAtualizado));
     }
 
     return (
-        // MUDANÇA: Exportando a nova função no Provider
-        <AuthContext.Provider value={{ usuario, handleLogin, handleLogout, isLoading, atualizarDadosGlobais }}>
+        <AuthContext.Provider value={{ usuario, handleLogin, handleLogout, isLoading, isHydrated, atualizarDadosGlobais }}>
             {children}
         </AuthContext.Provider>
     );
