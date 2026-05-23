@@ -5,6 +5,7 @@ import type Produto from "../../../models/Produto";
 import { AuthContext } from "../../../contexts/AuthContext";
 import Modal from 'react-modal';
 import { XIcon } from "@phosphor-icons/react";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 // Tipagem das propriedades que o Modal vai receber
 interface ModalDeletarProdutoProps {
@@ -37,9 +38,9 @@ function DeletarProduto({ isOpen, onClose, produtoId }: Readonly<ModalDeletarPro
 
         try{
             await deletar(`/produtos/${produtoId}`, { headers: { Authorization: token } });
-            alert('Produto apagado com sucesso.')
+            ToastAlerta('Produto apagado com sucesso.', "sucesso")
         }catch(error: any){
-            alert('Erro ao deletar Produto.')
+            ToastAlerta('Erro ao deletar Produto.', "erro")
         }
         
         setIsLoading(false)

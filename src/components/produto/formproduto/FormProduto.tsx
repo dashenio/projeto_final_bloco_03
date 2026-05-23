@@ -6,6 +6,7 @@ import type Produto from "../../../models/Produto";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { XIcon } from "@phosphor-icons/react";
 import Modal from 'react-modal';
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 // Tipagem das propriedades que o Modal vai receber
 interface ModalFormProdutoProps {
@@ -39,7 +40,6 @@ function FormProduto({ isOpen, onClose, produtoId }: Readonly<ModalFormProdutoPr
             await buscar(`/categorias/${id}`, setCategoria, { headers: { Authorization: token } });
         } catch(error: any) {
             if(error.toString().includes('401')) {
-                // Lógica de logout se necessário
             }
         }
     }
@@ -106,16 +106,16 @@ function FormProduto({ isOpen, onClose, produtoId }: Readonly<ModalFormProdutoPr
         if (produtoId !== undefined) {
             try {
                 await atualizar(`/produtos/atualizar`, produtoPayload, setProduto, { headers: { Authorization: token } });
-                alert('Produto atualizado com sucesso!');
+                ToastAlerta('Produto atualizado com sucesso!', "sucesso");
             } catch(error: any) {
-                alert('Erro ao atualizar o Produto.');
+                ToastAlerta('Erro ao atualizar o Produto.', "erro");
             }
         } else {
             try {
                 await cadastrar(`/produtos/cadastrar`, produtoPayload, setProduto, { headers: { Authorization: token } });
-                alert('Produto cadastrado com sucesso!');
+                ToastAlerta('Produto cadastrado com sucesso!', "sucesso");
             } catch(error: any) {
-                alert('Erro ao cadastrar o Produto.');
+                ToastAlerta('Erro ao cadastrar o Produto.', "erro");
             }
         }
 

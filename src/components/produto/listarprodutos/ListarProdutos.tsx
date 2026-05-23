@@ -57,12 +57,10 @@ function ListarProdutos() {
         }
     }
 
-    // ✅ Filtra client-side se houver categoriaId na URL
     const produtosExibidos = categoriaIdFiltro
         ? produtos.filter(p => String(p.categoria?.id) === categoriaIdFiltro)
         : produtos;
 
-    // ✅ Nome da categoria para exibir no título
     const nomeCategoria = categoriaIdFiltro && produtosExibidos.length > 0
         ? produtosExibidos[0].categoria?.tipo
         : null;

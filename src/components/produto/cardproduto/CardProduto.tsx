@@ -8,24 +8,27 @@ interface CardProdutoProps {
     produto: Produto;
     onEditar: (id: string) => void; 
     onDeletar: (id: string) => void;
+    simplificado?: boolean; // Propriedade nova adicionada aqui
 }
 
-function CardProduto({ produto, onEditar, onDeletar }: CardProdutoProps) {
+function CardProduto({ produto, onEditar, onDeletar, simplificado = false }: CardProdutoProps) {
 
     const { usuario } = useContext(AuthContext);
     const { adicionarProduto } = useContext(CartContext);
     
-    const mostrarBarraAcoes = ['admin'].includes(usuario.roles);
-    const mostrarBotaoComprar = usuario.roles === "user";
+    // Mesma Armadura contra os Arrays do NestJS
+    const safeRoles = usuario?.roles || "";
+    const roleUsuario = Array.isArray(safeRoles) 
+        ? safeRoles.join(' ').toLowerCase() 
+        : String(safeRoles).toLowerCase();
+
+    const mostrarBarraAcoes = roleUsuario.includes('admin');
+    const mostrarBotaoComprar = roleUsuario.includes('user');
 
     return (
-        <div className='flex flex-col rounded-lg border border-slate-500 overflow-hidden bg-white shadow-sm h-full justify-between'>
+        <div className='flex flex-col rounded-lg border border-slate-500 overflow-hidden bg-white shadow-sm min-h-100 justify-between'>
             
             <div className="flex flex-col flex-1">
-                <div className='bg-indigo-800 py-2 px-4'>
-                    <h4 className='text-white font-bold uppercase text-sm'>{produto.categoria?.tipo}</h4>
-                </div>
-
                 <div className="flex flex-col flex-1 w-full items-center py-2 px-4 gap-4 bg-slate-200">
                     <div className="flex justify-center items-center h-40 w-full p-2">
                         <img src={produto.foto} className='h-full w-full object-contain' alt={produto.nome} />
@@ -42,27 +45,45 @@ function CardProduto({ produto, onEditar, onDeletar }: CardProdutoProps) {
                             )}
                         </div>
 
-                        <p className='text-sm text-slate-600 italic'>{produto.apresentacao}</p>
-                        <p className='text-slate-700 mt-2'><span className='font-bold'>Fabricante: </span>{produto.fabricante}</p>
-                        <p className='text-slate-700'>
-                            <span className='font-bold'>Preço: </span>
-                            {new Intl.NumberFormat("pt-BR", { style: 'currency', currency: 'BRL' }).format(produto.preco)}
-                        </p>
+                        {/* Bloco de detalhes escondido caso 'simplificado' seja true */}
+                        {!simplificado && (
+                            <>
+                                {/* Preço no modo COMPLETO fica aqui no meio */}
+                                <p className='text-slate-700 mt-2'>
+                                    <span className='font-bold'>Preço: </span>
+                                    {new Intl.NumberFormat("pt-BR", { style: 'currency', currency: 'BRL' }).format(Number(produto.preco) || 0)}
+                                </p>
 
-                        { usuario.roles === 'admin' && (
-                            <p className='text-slate-700 mt-2'>
-                                <span className='font-bold uppercase'>estoque: <span className='text-blue-600'>{produto.quantidade}</span></span>
-                            </p>
+                                <p className='text-sm text-slate-600 italic mt-2'>{produto.apresentacao}</p>
+                                <p className='text-slate-700 mt-2'><span className='font-bold'>Fabricante: </span>{produto.fabricante}</p>
+
+                                { mostrarBarraAcoes && (
+                                    <p className='text-slate-700 mt-2'>
+                                        <span className='font-bold uppercase'>estoque: <span className='text-blue-600'>{produto.quantidade}</span></span>
+                                    </p>
+                                )}
+
+                                <p className='text-slate-700 mt-2 space-y-1 w-full h-20 overflow-y-auto'>
+                                    <span className='font-bold'>Descrição: </span>{produto.descricao}
+                                </p>
+                            </>
                         )}
-
-                        <p className='text-slate-700 mt-2 space-y-1 w-full h-20 overflow-y-auto'>
-                            <span className='font-bold'>Descrição: </span>{produto.descricao}
-                        </p>
                     </div>   
                 </div>
             </div>
 
-            <div className="flex flex-col w-full mt-auto">
+            {/* Este container empurra tudo pro fundo */}
+            <div className="flex flex-col w-full mt-auto bg-slate-200">
+                
+                {/* Preço no modo SIMPLIFICADO fica colado embaixo, em destaque */}
+                {simplificado && (
+                    <div className="w-full text-center py-3 bg-white border-t border-slate-300 shadow-inner">
+                        <p className="text-3xl font-extrabold text-teal-700">
+                            {new Intl.NumberFormat("pt-BR", { style: 'currency', currency: 'BRL' }).format(Number(produto.preco) || 0)}
+                        </p>
+                    </div>
+                )}
+
                 { mostrarBotaoComprar && (
                     <button className="flex items-center justify-center w-full py-3 font-bold text-white bg-teal-600 hover:bg-teal-900 transition-colors"
                         onClick={() => adicionarProduto(produto)}>

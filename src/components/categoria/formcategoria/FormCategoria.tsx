@@ -28,7 +28,7 @@ function FormCategoria({ isOpen, onClose, categoriaId }: FormCategoriaProps) {
         });
     }
 
-    // ✅ Busca a categoria ao abrir o modal (modo edição) ou limpa o estado (modo criação)
+    // Busca a categoria ao abrir o modal (modo edição) ou limpa o estado (modo criação)
     useEffect(() => {
         if (isOpen) {
             if (categoriaId !== undefined) {
@@ -72,7 +72,7 @@ function FormCategoria({ isOpen, onClose, categoriaId }: FormCategoriaProps) {
         }
 
         setIsLoading(false);
-        onClose(); // ✅ Fecha o modal ao concluir, no lugar de navigate()
+        onClose(); // Fecha o modal ao concluir, no lugar de navigate()
     }
 
     return (

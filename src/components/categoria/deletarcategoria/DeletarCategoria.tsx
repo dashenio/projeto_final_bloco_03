@@ -5,6 +5,7 @@ import type Categoria from "../../../models/Categoria";
 import { AuthContext } from "../../../contexts/AuthContext";
 import Modal from 'react-modal';
 import { XIcon } from "@phosphor-icons/react";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 interface ModalDeletarCategoriaProps {
     isOpen: boolean;
@@ -38,9 +39,9 @@ function DeletarCategoria({ isOpen, onClose, categoriaId }: Readonly<ModalDeleta
             await deletar(`/categorias/${categoriaId}`, { 
                 headers: { Authorization: token } 
             });
-            alert('Categoria deletada com sucesso.');
+            ToastAlerta('Categoria deletada com sucesso.', "sucesso");
         } catch(error: any) {
-            alert('Erro ao deletar Categoria.');
+            ToastAlerta('Erro ao deletar Categoria.', "erro");
             handleLogout(); 
         }
         setIsLoading(false);

@@ -1,5 +1,7 @@
 import { createContext, type ReactNode, useState } from "react"
 import type Produto from "../models/Produto"
+import { ToastAlerta } from "../utils/ToastAlerta"
+
 
 // Cria o tipo Items, como uma herança do tipo Produto
 export interface Items extends Produto {
@@ -44,11 +46,11 @@ export function CartProvider({ children }: CartProviderProps) {
 			const novoCart = [...items]
 			novoCart[itemIndex].quantidade += 1
 			setItems(novoCart)
-			alert("01 item adicionado!")
+			ToastAlerta("01 item adicionado!", "sucesso")
 		} else {
 			// Produto não está no carrinho, adiciona novo item
 			setItems((itensAtuais) => [...itensAtuais, { ...produto, quantidade: 1 }])
-			alert("Produto adicionado ao carrinho!")
+			ToastAlerta("Produto adicionado ao carrinho!", "sucesso")
 		}
 	}
 
@@ -61,9 +63,9 @@ export function CartProvider({ children }: CartProviderProps) {
 			const novoCart = [...items]
 			novoCart[itemIndex].quantidade += 1
 			setItems(novoCart)
-			alert("01 item adicionado!")
+			ToastAlerta("01 item adicionado!", "sucesso")
 		} else {
-			alert("Produto não encontrado no carrinho!")
+			ToastAlerta("Produto não encontrado no carrinho!", "erro")
 		}
 	}
 
@@ -82,12 +84,12 @@ export function CartProvider({ children }: CartProviderProps) {
 				// Reduz a quantidade do produto
 				novoCart[itemIndex].quantidade -= 1
 				setItems(novoCart)
-				alert("01 Item removido!")
+				ToastAlerta("01 Item removido!", "info")
 			} else {
 				// Senão, remove o produto do carrinho
 				novoCart.splice(itemIndex, 1)
 				setItems(novoCart)
-				alert("Produto removido!")
+				ToastAlerta("Produto removido!", "info")
 			}
 		}
 	}
@@ -96,7 +98,7 @@ export function CartProvider({ children }: CartProviderProps) {
 		const existe = items.some((item) => item.id === id)
 
 		if (!existe) {
-			alert("Produto não encontrado no carrinho!")
+			ToastAlerta("Produto não encontrado no carrinho!", "erro")
 			return
 		}
 
@@ -104,12 +106,12 @@ export function CartProvider({ children }: CartProviderProps) {
 		const novoCart = items.filter((item) => item.id !== id)
 
 		setItems(novoCart)
-		alert("Produto e todos os seus itens foram removidos!")
+		ToastAlerta("Produto e todos os seus itens foram removidos!", "info")
 	}
 
 	// Função para limpar o carrinho
 	function limparCart() {
-		alert("Compra efetuada com sucesso!")
+		ToastAlerta("Compra efetuada com sucesso!", "sucesso")
 		setItems([])
 	}
 
