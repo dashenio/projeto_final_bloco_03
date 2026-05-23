@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { buscar, deletar } from "../../../services/Service";
 import { useNavigate, useParams } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
 import type Produto from "../../../models/Produto";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 
 
@@ -11,10 +12,14 @@ function DeletarProduto() {
     const navigate = useNavigate();
     const [produto, setProduto] = useState<Produto>({} as Produto)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+
+    const { usuario } = useContext(AuthContext);
+    const token = usuario.token;
+
     const { id } = useParams<{ id: string }>();
 
     async function buscarPorId(id: string) {
-        await buscar(`/produtos/${id}`, setProduto)
+        await buscar(`/produtos/${id}`, setProduto, { headers: { Authorization: token } });
     }    
 
     useEffect(() => {
@@ -33,7 +38,7 @@ function DeletarProduto() {
 
         try{
             
-            await deletar(`/produtos/${id}`)
+            await deletar(`/produtos/${id}`, { headers: { Authorization: token } });
 
             alert('Produto apagado com sucesso.')
 
@@ -58,7 +63,7 @@ function DeletarProduto() {
         <div className="flex flex-row items-center gap-6">
             <img 
                 src={produto.foto}
-                className='w-48 h-48 object-cover rounded' 
+                className='w-24 object-fit rounded' 
             />
             
             <div className='flex flex-col gap-4'>
@@ -68,15 +73,15 @@ function DeletarProduto() {
                         style: 'currency',
                         currency: 'BRL',
                     }).format(produto.preco)}</p>
-                    <p className="text-lg"><span className='font-bold'>Categoria: </span>{produto.categoria?.nome}</p>
+                    <p className="text-lg"><span className='font-bold'>Categoria: </span>{produto.categoria?.tipo}</p>
                 </div>
 
                 <div className="flex">
-                <button className="text-slate-100 bg-red-400 hover:bg-red-600 
+                <button className="text-slate-100 bg-red-400 hover:bg-red-600 rounded-l-lg
                         w-full py-2" onClick={retornar}>
                     Não
                 </button>
-                <button className="text-slate-100 bg-indigo-400 hover:bg-indigo-600 
+                <button className="text-slate-100 bg-teal-500 hover:bg-teal-700 rounded-r-lg
                         w-full justify-center" onClick={deletarProduto}>
                     {
                         isLoading ?

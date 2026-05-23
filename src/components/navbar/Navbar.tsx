@@ -40,9 +40,6 @@ function Navbar() {
                             <div className="flex flex-row gap-3">
                                 {/* Mudança: Links trazidos para o lado esquerdo junto com a logo */}
                                 <Link to="/categorias" className="hover:underline">Categorias</Link>
-                                {mostrar && (
-                                    <Link to="/cadastrarcategoria" className="hover:underline">Cadastrar categoria</Link>
-                                )}
                                 <Link to="/produtos" className="hover:underline">Produtos</Link>
                             </div>
                         </div>
@@ -79,7 +76,7 @@ function Navbar() {
                         
                         {/* Bloco da Direita: Apenas os ícones e a opção de Sair */}
                         <div className="flex gap-5 items-center shrink-0 mr-4">
-                            <UserIcon size={32} color="#ffffff" weight="bold" />
+                            <Link to={'/perfil'}><UserIcon size={32} color="#ffffff" weight="bold" /></Link>
                             { !mostrar && (<ShoppingCartIcon size={32} color="#ffffff" weight="bold" />)}
                             <Link to='/login' onClick={logout} className="hover:underline">Sair</Link>  
                         </div>

@@ -12,6 +12,7 @@ import DeletarProduto from "./components/produto/deletarproduto/DeletarProduto"
 import Login from "./pages/login/Login"
 import { AuthProvider } from "./contexts/AuthContext"
 import { ToastContainer } from "react-toastify"
+import Perfil from "./pages/perfil/Perfil"
 
 
 
@@ -32,6 +33,7 @@ function App() {
               <Route path="/login" element={<Login />}/>
               <Route path="/home" element={<Home />}/>
               <Route path="/categorias" element={<ListarCategorias />}/>
+              <Route path="/perfil" element={<Perfil />}/>
               <Route path="/cadastrarcategoria" element={<FormCategoria/>}/>
               <Route path="/editarcategoria/:id" element={<FormCategoria/>}/>
               <Route path="/deletarcategoria/:id" element={<DeletarCategoria/>}/>  
