@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento de Farmácia - Projeto Final
+# Farmácia da Gente - Sistema de Gerenciamento de E-commerce
 
 <div style="display: flex; flex-direction: column; gap: 5px;">
   <div align="center">
