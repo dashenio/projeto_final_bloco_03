@@ -16,7 +16,7 @@
 
 ## 📝 Sobre o Projeto
 
-Este é o sistema final desenvolvido para o Bloco 03, focado na digitalização e otimização de uma farmácia. A plataforma é composta por dois pilares principais:
+Este é o sistema final desenvolvido para o Bloco 03 do bootcamp da Generation Brasil, focado na digitalização e otimização de uma farmácia. A aplicação é composta por dois pilares principais:
 
 1. **Área Administrativa (Gestão):** Painel voltado para o controle interno, onde administradores podem gerenciar estoque, categorias e produtos.
 2. **E-commerce (Cliente):** Interface voltada para o consumidor final, permitindo a visualização de produtos, busca por categorias e gerenciamento de carrinho de compras.
