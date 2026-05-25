@@ -7,8 +7,9 @@
 
 <div align="center">
 
-  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
   [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
 </div>
@@ -54,25 +55,13 @@ Certifique-se de ter instalado em sua máquina:
    npm install
    ```
 
-4. **Troque o código de Service.tsx de**
+4. **execute a aplicação:**
    
    ```bash
-   import axios from "axios";
-   
-   const api = axios.create({
-       baseURL: import.meta.env.VITE_API_URL
-   })
+   npm run dev
    ```
 
-**para o [link da API do backend](https://farmaciadagente.onrender.com)**
 
-```bash
-import axios from "axios";
-
-const api = axios.create({
-    baseURL: "https://farmaciadagente.onrender.com"
-})
-```
 
 -----------
 
