@@ -1,73 +1,96 @@
-# React + TypeScript + Vite
+# Sistema de Gerenciamento de Farmácia - Projeto Final
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<div style="display: flex; flex-direction: column; gap: 5px;">
+  <div align="center">
+    <img src="https://ik.imagekit.io/dashen/fpb_02/medicine.svg" height="200px">
+  </div>
 
-Currently, two official plugins are available:
+<div align="center">
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+  [![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-## React Compiler
+</div>
+</div>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 📝 Sobre o Projeto
 
-## Expanding the ESLint configuration
+Este é o sistema final desenvolvido para o Bloco 03, focado na digitalização e otimização de uma farmácia. A plataforma é composta por dois pilares principais:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1. **Área Administrativa (Gestão):** Painel voltado para o controle interno, onde administradores podem gerenciar estoque, categorias e produtos.
+2. **E-commerce (Cliente):** Interface voltada para o consumidor final, permitindo a visualização de produtos, busca por categorias e gerenciamento de carrinho de compras.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+O objetivo deste projeto é proporcionar uma experiência fluida de ponta a ponta, desde a gestão administrativa até a jornada de compra do cliente.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🚀 Configuração e Execução Local
+
+### Pré-requisitos
+
+Certifique-se de ter instalado em sua máquina:
+
+* [Node.js](https://nodejs.org/) (versão 16 ou superior)
+* [Git](https://git-scm.com/)
+
+### Passo a passo para rodar o projeto
+
+1. **Clone o repositório:**
+   
+   ```bash
+   git clone https://github.com/dashenio/projeto_final_bloco_03.git
+   ```
+
+2. **Acesse a pasta do projeto:**
+   
+   ```bash
+   cd projeto_final_bloco_03
+   ```
+
+3. **Instale as dependências:**
+   
+   ```bash
+   npm install
+   ```
+
+4. **Troque o código de Service.tsx de**
+   
+   ```bash
+   import axios from "axios";
+   
+   const api = axios.create({
+       baseURL: import.meta.env.VITE_API_URL
+   })
+   ```
+
+**para o [link da API do backend](https://farmaciadagente.onrender.com)**
+
+```bash
+import axios from "axios";
+
+const api = axios.create({
+    baseURL: "https://farmaciadagente.onrender.com"
+})
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+-----------
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 💻 Tecnologias
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Item                            | Descrição        |
+| ------------------------------- | ---------------- |
+| 🖥️ **Servidor**                | Node JS          |
+| ⌨️ **Linguagem de programação** | TypeScript       |
+| ⚛️ **Biblioteca**               | React JS         |
+| ⚡ **Build**                     | Vite             |
+| 🎨 **Framework de Estilização** | Tailwind CSS     |
+| 🛣️ **Roteamento**              | React Router DOM |
+
+--------
+
+## 🤝 Contribuições
+
+Este projeto foi desenvolvido como parte do Projeto Final do Bloco 03 do bootcamp da Generation Brasil. Para sugestões ou melhorias, sinta-se à vontade para abrir uma *Issue* ou enviar um *Pull Request*.
+
+Desenvolvido por **[Vivian](https://github.com/dashenio).**
