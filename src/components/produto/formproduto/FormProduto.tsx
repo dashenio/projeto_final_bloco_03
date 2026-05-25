@@ -115,7 +115,7 @@ function FormProduto({ isOpen, onClose, produtoId }: Readonly<ModalFormProdutoPr
                 await cadastrar(`/produtos/cadastrar`, produtoPayload, setProduto, { headers: { Authorization: token } });
                 ToastAlerta('Produto cadastrado com sucesso!', "sucesso");
             } catch(error: any) {
-                ToastAlerta('Erro ao cadastrar o Produto.', "erro");
+                ToastAlerta('Erro ao cadastrar o Produto.',"erro");
             }
         }
 

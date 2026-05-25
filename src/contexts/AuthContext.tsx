@@ -8,7 +8,7 @@ interface AuthContextProps {
     handleLogout(): void;
     handleLogin(usuario: UsuarioLogin): Promise<void>;
     isLoading: boolean;
-    isHydrated: boolean; // ✅ Novo flag
+    isHydrated: boolean; 
     atualizarDadosGlobais(usuarioAtualizado: UsuarioLogin): void;
 }
 

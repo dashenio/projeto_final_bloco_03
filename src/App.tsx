@@ -12,6 +12,7 @@ import Perfil from "./pages/perfil/Perfil";
 import { CartProvider } from "./contexts/CartContext";
 import Cart from "./components/carrinho/Cart";
 import Modal from 'react-modal';
+import FormUsuario from "./components/usuario/formusuario/FormUsuario";
 
 Modal.setAppElement('#root');
 
